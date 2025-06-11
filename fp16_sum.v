@@ -2,7 +2,7 @@
 //this is the final adder / subtractor 
 
 `default_nettype none
-module fp16_sum(input wire clk,input wire [15:0] num1,num2,output reg [15:0] out);
+module fp16_sum(input wire clk,input wire reset,input wire [15:0] num1,num2,output reg [15:0] out);
 
 	reg big_sign,sma_sign;
 	reg [4:0] big_exp,sma_exp;
@@ -108,7 +108,10 @@ module fp16_sum(input wire clk,input wire [15:0] num1,num2,output reg [15:0] out
 	//output value is pushed
 	//clk5
 	always @(posedge clk)begin
-		out <= {res_sign,res_exp,res_mant};
+		if(reset)
+			out <= 15'b0;
+		else
+			out <= {res_sign,res_exp,res_mant};
 	end
 	
 endmodule
